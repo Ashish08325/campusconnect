@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#4500e8">
-<meta name="api-base-url" content="">
+<meta name="api-base-url" content="https://campusconnect-3-xiqo.onrender.com">
 <title>CampusConnect — Discover Events Around Your Campus</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -792,9 +792,10 @@ function resolveApiBase() {
     }
     const fromGlobal = normalizeApiUrl(window.CAMPUSCONNECT_API_URL);
     if (fromGlobal) return fromGlobal;
-    const fromMeta = normalizeApiUrl(document.querySelector('meta[name="api-base-url"]')?.content);
-    if (fromMeta) return fromMeta;
-    return normalizeApiUrl(localStorage.getItem(API_STORAGE_KEY));
+    const saved = normalizeApiUrl(localStorage.getItem(API_STORAGE_KEY));
+    if (saved) return saved;
+    if (['localhost', '127.0.0.1'].includes(window.location.hostname)) return '';
+    return normalizeApiUrl(document.querySelector('meta[name="api-base-url"]')?.content);
   } catch {
     return normalizeApiUrl(window.CAMPUSCONNECT_API_URL);
   }
