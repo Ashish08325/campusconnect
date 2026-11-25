@@ -19,7 +19,7 @@ Supabase row-level security policies before exposing production data.
 
 ## Frontend file
 
-`static/index.html` is the deployable copy of `../frontend/app/index.html`. The
-Flask app uses the sibling frontend file when running from the full local
-project and falls back to this bundled copy on Vercel. Copy frontend changes to
+`frontend/app/index.html` is the frontend source, and `static/index.html` is its
+deployable copy. The Flask app serves the source file when it is present and
+falls back to the bundled copy on Vercel. Copy frontend changes to
 `static/index.html` before deploying.

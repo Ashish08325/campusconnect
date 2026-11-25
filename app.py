@@ -13,7 +13,7 @@ load_dotenv()
 
 app = Flask(__name__)
 PROJECT_DIR = Path(__file__).resolve().parent
-LOCAL_FRONTEND_INDEX = PROJECT_DIR.parent / "frontend" / "app" / "index.html"
+LOCAL_FRONTEND_INDEX = PROJECT_DIR / "frontend" / "app" / "index.html"
 BUNDLED_FRONTEND_INDEX = PROJECT_DIR / "static" / "index.html"
 FRONTEND_INDEX = (
     LOCAL_FRONTEND_INDEX if LOCAL_FRONTEND_INDEX.is_file() else BUNDLED_FRONTEND_INDEX
