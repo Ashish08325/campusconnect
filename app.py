@@ -1,16 +1,23 @@
 """Unauthenticated REST API for the event database."""
 
 import os
+from pathlib import Path
 from typing import Any
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from postgrest import APIError
 from supabase import Client, create_client
 
 load_dotenv()
 
 app = Flask(__name__)
+PROJECT_DIR = Path(__file__).resolve().parent
+LOCAL_FRONTEND_INDEX = PROJECT_DIR.parent / "frontend" / "app" / "index.html"
+BUNDLED_FRONTEND_INDEX = PROJECT_DIR / "static" / "index.html"
+FRONTEND_INDEX = (
+    LOCAL_FRONTEND_INDEX if LOCAL_FRONTEND_INDEX.is_file() else BUNDLED_FRONTEND_INDEX
+)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_PUBLISHABLE_KEY")
@@ -73,6 +80,16 @@ def handle_validation_error(error: ValueError):
 
 @app.get("/")
 def index():
+    if FRONTEND_INDEX.is_file():
+        return send_file(FRONTEND_INDEX)
+    return jsonify({
+        "error": "Frontend files are missing",
+        "expected": str(FRONTEND_INDEX),
+    }), 404
+
+
+@app.get("/api")
+def api_index():
     return jsonify({
         "name": "Event management API",
         "authentication": "disabled",
