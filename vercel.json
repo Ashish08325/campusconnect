@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json.schemastore.org/vercel.json",
+  "outputDirectory": "static",
+  "cleanUrls": true,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/static/$1"
+    }
+  ]
+}
